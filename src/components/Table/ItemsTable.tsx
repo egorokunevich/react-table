@@ -1,12 +1,23 @@
-import { Space, Table } from 'antd';
+'use client';
+
+import { Card, Space, Table } from 'antd';
 import { ITableItem } from './types';
-import type { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import RowActions from './RowActions';
+import { useCallback, useState } from 'react';
+import CreateTableItemModal from './CreateTableItemModal';
 
 const ItemsTable = () => {
+  const [items, setItems] = useState<ITableItem[]>([]);
+  const handleCreateTableItem = useCallback((newTableItem: ITableItem) => {
+    setItems(prev => [...prev, newTableItem]);
+  }, []);
+
   const handleEditTableItem = () => {};
   const handleDeleteTableItem = () => {};
   return (
     <Space size="middle" direction="vertical" style={{ display: 'flex' }}>
+      <Card extra={<CreateTableItemModal handleCreate={handleCreateTableItem} />}></Card>
       <Table<ITableItem>
         columns={[
           {
@@ -38,7 +49,10 @@ const ItemsTable = () => {
               />
             ),
           },
-        ]}></Table>
+        ]}
+        dataSource={[{ age: 18, date: dayjs(), id: '1', name: 'Ivan' }]}
+        pagination={false}
+        rowKey="id"></Table>
     </Space>
   );
 };
