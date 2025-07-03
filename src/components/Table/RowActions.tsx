@@ -1,7 +1,7 @@
 'use client';
 
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Modal, Space } from 'antd';
+import { Button, Modal, Space } from 'antd';
 import { ITableItem } from './types';
 import { useState } from 'react';
 import TableItemForm from './TableItemForm';
@@ -18,8 +18,12 @@ const RowActions = ({ tableItem, handleEdit, handleDelete }: IRowActionsProps) =
   return (
     <>
       <Space size="middle" style={{ display: 'flex' }}>
-        <EditOutlined size={2} onClick={() => setIsEditModalOpen(true)} />
-        <DeleteOutlined size={2} onClick={() => handleDelete(tableItem)} />
+        <Button shape="circle" variant="filled" color="blue">
+          <EditOutlined onClick={() => setIsEditModalOpen(true)} />
+        </Button>
+        <Button shape="circle" variant="filled" color="red">
+          <DeleteOutlined onClick={() => handleDelete(tableItem)} />
+        </Button>
       </Space>
       <Modal
         destroyOnHidden

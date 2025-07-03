@@ -2,7 +2,7 @@
 
 import { Card, Space, Table } from 'antd';
 import { ITableItem } from './types';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import RowActions from './RowActions';
 import { useCallback, useState } from 'react';
 import CreateTableItemModal from './CreateTableItemModal';
@@ -49,6 +49,7 @@ const ItemsTable = () => {
             sorter: (a, b) => a.date.diff(b.date),
           },
           {
+            title: 'Действия',
             key: 'actions',
             render: tableItem => (
               <RowActions
