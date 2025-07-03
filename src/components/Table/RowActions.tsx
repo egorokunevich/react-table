@@ -18,12 +18,20 @@ const RowActions = ({ tableItem, handleEdit, handleDelete }: IRowActionsProps) =
   return (
     <>
       <Space size="middle" style={{ display: 'flex' }}>
-        <Button shape="circle" variant="filled" color="blue">
-          <EditOutlined onClick={() => setIsEditModalOpen(true)} />
-        </Button>
-        <Button shape="circle" variant="filled" color="red">
-          <DeleteOutlined onClick={() => handleDelete(tableItem)} />
-        </Button>
+        <Button
+          onClick={() => setIsEditModalOpen(true)}
+          shape="circle"
+          variant="filled"
+          color="blue"
+          icon={<EditOutlined />}
+        />
+        <Button
+          onClick={() => handleDelete(tableItem)}
+          shape="circle"
+          variant="filled"
+          color="red"
+          icon={<DeleteOutlined />}
+        />
       </Space>
       <Modal
         destroyOnHidden
