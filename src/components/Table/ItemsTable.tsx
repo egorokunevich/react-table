@@ -6,6 +6,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import RowActions from './RowActions';
 import { useCallback, useState } from 'react';
 import CreateTableItemModal from './CreateTableItemModal';
+import _ from 'lodash';
 
 const ItemsTable = () => {
   const [items, setItems] = useState<ITableItem[]>([]);
@@ -13,8 +14,16 @@ const ItemsTable = () => {
     setItems(prev => [...prev, newTableItem]);
   }, []);
 
-  const handleEditTableItem = () => {};
-  const handleDeleteTableItem = () => {};
+  const handleEditTableItem = useCallback((updatedItem: ITableItem) => {
+    setItems(prev =>
+      _.map(prev, tableItem => (tableItem.id === updatedItem.id ? updatedItem : tableItem)),
+    );
+  }, []);
+
+  const handleDeleteTableItem = useCallback((tableItemToDelete: ITableItem) => {
+    setItems(prev => _.remove(prev, item => item.id !== tableItemToDelete.id));
+  }, []);
+
   return (
     <Space size="middle" direction="vertical" style={{ display: 'flex' }}>
       <Card extra={<CreateTableItemModal handleCreate={handleCreateTableItem} />}></Card>
@@ -50,7 +59,7 @@ const ItemsTable = () => {
             ),
           },
         ]}
-        dataSource={[{ age: 18, date: dayjs(), id: '1', name: 'Ivan' }]}
+        dataSource={items}
         pagination={false}
         rowKey="id"></Table>
     </Space>
