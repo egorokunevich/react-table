@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Input, Space, Table } from 'antd';
+import { Input, Space, Table } from 'antd';
 import { ITableItem } from './types';
 import dayjs, { Dayjs } from 'dayjs';
 import RowActions from './RowActions';
@@ -53,14 +53,23 @@ const ItemsTable = () => {
   }, [items, searchValue]);
 
   return (
-    <Space size="middle" direction="vertical" style={{ display: 'flex' }}>
-      <Card extra={<CreateTableItemModal handleCreate={handleCreateTableItem} />}>
+    <Space size="middle" direction="vertical" style={{ display: 'flex', padding: '2rem' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '2rem',
+          width: '100%',
+        }}>
         <Input
           placeholder="Поиск..."
           value={searchValue}
           onChange={event => setSearchValue(event.target.value)}
+          style={{ width: '100%' }}
         />
-      </Card>
+        <CreateTableItemModal handleCreate={handleCreateTableItem} />
+      </div>
       <Table<ITableItem>
         columns={[
           {
@@ -96,6 +105,7 @@ const ItemsTable = () => {
         ]}
         dataSource={filteredItems}
         pagination={false}
+        bordered
         rowKey="id"></Table>
     </Space>
   );
