@@ -32,7 +32,7 @@ const TableItemForm = ({ initialData, onSubmit }: ITableItemFormProps) => {
             message: 'Введите возраст',
           },
         ]}>
-        <InputNumber placeholder="Введите возраст" style={{ width: '100%' }} />
+        <InputNumber min={0} placeholder="Введите возраст" style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item
         name="date"
