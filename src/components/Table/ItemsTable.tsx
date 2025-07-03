@@ -1,15 +1,17 @@
 'use client';
 
-import { Card, Space, Table } from 'antd';
+import { Card, Input, Space, Table } from 'antd';
 import { ITableItem } from './types';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import RowActions from './RowActions';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import CreateTableItemModal from './CreateTableItemModal';
 import _ from 'lodash';
 
 const ItemsTable = () => {
   const [items, setItems] = useState<ITableItem[]>([]);
+  const [searchValue, setSearchValue] = useState<string>('');
+
   const handleCreateTableItem = useCallback((newTableItem: ITableItem) => {
     setItems(prev => [...prev, newTableItem]);
   }, []);
@@ -24,9 +26,41 @@ const ItemsTable = () => {
     setItems(prev => _.remove(prev, item => item.id !== tableItemToDelete.id));
   }, []);
 
+  const filteredItems = useMemo(() => {
+    if (!searchValue) {
+      return items;
+    }
+
+    return _.filter(items, ({ ...rest }) => {
+      const isMatch = _.some(rest, value => {
+        if (_.isString(value)) {
+          return value.toLowerCase().includes(searchValue.toLowerCase());
+        }
+
+        if (_.isNumber(value)) {
+          return value.toString().includes(searchValue);
+        }
+
+        if (_.isDate(value) || dayjs.isDayjs(value)) {
+          return value.format('YYYY-MM-DD').includes(searchValue);
+        }
+
+        return false;
+      });
+
+      return isMatch;
+    });
+  }, [items, searchValue]);
+
   return (
     <Space size="middle" direction="vertical" style={{ display: 'flex' }}>
-      <Card extra={<CreateTableItemModal handleCreate={handleCreateTableItem} />}></Card>
+      <Card extra={<CreateTableItemModal handleCreate={handleCreateTableItem} />}>
+        <Input
+          placeholder="Поиск..."
+          value={searchValue}
+          onChange={event => setSearchValue(event.target.value)}
+        />
+      </Card>
       <Table<ITableItem>
         columns={[
           {
@@ -60,7 +94,7 @@ const ItemsTable = () => {
             ),
           },
         ]}
-        dataSource={items}
+        dataSource={filteredItems}
         pagination={false}
         rowKey="id"></Table>
     </Space>

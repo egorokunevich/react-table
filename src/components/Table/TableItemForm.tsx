@@ -21,7 +21,7 @@ const TableItemForm = ({ initialData, onSubmit }: ITableItemFormProps) => {
             message: 'Введите имя',
           },
         ]}>
-        <Input placeholder="Введите имя" />
+        <Input placeholder="Введите имя" style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item
         name="age"
@@ -32,7 +32,7 @@ const TableItemForm = ({ initialData, onSubmit }: ITableItemFormProps) => {
             message: 'Введите возраст',
           },
         ]}>
-        <InputNumber placeholder="Введите возраст" />
+        <InputNumber placeholder="Введите возраст" style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item
         name="date"
@@ -43,7 +43,7 @@ const TableItemForm = ({ initialData, onSubmit }: ITableItemFormProps) => {
             message: 'Введите дату',
           },
         ]}>
-        <DatePicker placeholder="Выберите дату" />
+        <DatePicker placeholder="Выберите дату" style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item label={null}>
         <Button type="primary" htmlType="submit">
